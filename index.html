@@ -64,8 +64,9 @@ section{padding:80px 0 40px}
 .ring{width:150px;height:150px;transform:rotate(-90deg)}
 .ring circle{fill:none;stroke-width:10}
 .ring .bg{stroke:var(--line)}.ring .fg{stroke:var(--rose);stroke-linecap:butt;transition:stroke-dashoffset 1s cubic-bezier(.2,.7,.2,1)}
-.rnum{font-size:2.6rem;font-weight:800;line-height:1;margin-top:-100px;margin-bottom:62px}
-.rnum small{display:block;font-family:var(--mono);font-size:.7rem;font-weight:400;color:var(--rose);letter-spacing:.08em;margin-top:6px}
+.ringwrap{position:relative;width:150px;height:150px;margin:0 auto}
+.rnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.6rem;font-weight:800;line-height:1}
+.rlabel{font-family:var(--mono);font-size:.74rem;color:var(--rose);letter-spacing:.08em;text-transform:uppercase;margin:14px 0 16px}
 .ringbox p{font-size:.88rem;color:var(--mut);margin:0}
 .reqs{list-style:none;margin:0;padding:0;border:1.5px solid var(--line);background:var(--s1)}
 .reqs li{display:grid;grid-template-columns:34px 1fr;gap:6px;padding:13px 16px;border-bottom:1px solid var(--line);animation:in .4s both}
@@ -135,6 +136,7 @@ footer{padding:28px 0 44px;color:var(--mut);font-family:var(--mono);font-size:.7
     <div><dt>Objetivo</dt><dd>Vaga em desenvolvimento full stack, frontend, backend ou automação</dd></div>
     <div><dt>Local</dt><dd>Gravataí, RS</dd></div>
     <div><dt>Formação</dt><dd>ADS (UNASP, até dez/2026) · Técnico em Des. de Sistemas (SENAI-RS)</dd></div>
+    <div><dt>Idiomas</dt><dd>Inglês e espanhol intermediários</dd></div>
     <div><dt>Código</dt><dd><a href="https://github.com/codedByMaria" rel="noopener">github.com/codedByMaria</a></dd></div>
     <div><dt>Atualmente</dt><dd>Assistente de RH</dd></div>
     <div><dt>Diferencial</dt><dd>Vivência corporativa real: automatizo processos que já conheço na prática</dd></div>
@@ -146,8 +148,9 @@ footer{padding:28px 0 44px;color:var(--mut);font-family:var(--mono);font-size:.7
   <h2>Escolha a vaga. Eu mostro a cobertura.</h2>
   <div class="vtabs" id="vtabs" role="group" aria-label="Escolher vaga"></div>
   <div class="match">
-    <div class="ringbox"><svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="fg" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>
-      <div class="rnum" id="rnum">0<small>requisitos cobertos</small></div>
+    <div class="ringbox"><div class="ringwrap"><svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="fg" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>
+      <div class="rnum" id="rnum">0</div></div>
+      <div class="rlabel">requisitos cobertos</div>
       <p>Cobertura calculada sobre o que consta no meu currículo.</p></div>
     <div><ul class="reqs" id="reqs"></ul><p class="legend">✓ coberto, com evidência · ○ próximo passo de estudo</p></div>
   </div>
@@ -168,16 +171,10 @@ footer{padding:28px 0 44px;color:var(--mut);font-family:var(--mono);font-size:.7
         <div class="arq" aria-label="Arquitetura"><span>React + Vite</span><i>→ HTTP/JSON →</i><span>Express API</span><i>→ SQL →</i><span>SQLite</span></div>
         <ul class="tg"><li>React 18</li><li>TypeScript</li><li>Node.js</li><li>Express</li><li>Zod</li><li>SQLite</li></ul>
         <p><a class="btn solid" style="padding:8px 16px;margin-top:10px" href="https://talentflow-pi-nine.vercel.app/" rel="noopener">Abrir o projeto</a></p></div></details>
-      <details><summary><div><h3>Estrelas ESTAQ</h3><small>Plataforma web · Multi-idioma e Reconhecimento</small></div></summary><div class="body">
+      <details><summary><div><h3>Estrelas</h3><small>Plataforma web · Multi-idioma e Reconhecimento</small></div></summary><div class="body">
         <p>Plataforma interativa desenvolvida para o reconhecimento de colaboradores, com suporte a múltiplos idiomas (Português/Espanhol) e entrada de texto por voz utilizando a Web Speech API.</p>
-        <ul class="tg">
-          <li>HTML5</li>
-          <li>CSS3</li>
-          <li>JavaScript</li>
-          <li>Web Speech API</li>
-        </ul>
-        <div class="arq"><span>Demonstração</span><i><a href="estrelas-demo.html" target="_blank" style="color: var(--rose);">Abrir projeto em tela cheia →</a></i></div>
-      </div></details>
+        <ul class="tg"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Web Speech API</li></ul>
+        <p><a class="btn solid" style="padding:8px 16px;margin-top:10px" href="https://codedbymaria.github.io/portfolio/estrelas-demo.html" rel="noopener">Abrir projeto em tela cheia →</a></p></div></details>
       <details><summary><div><h3>Painel do Recrutador (R&amp;S)</h3><small>Criado por mim, do zero</small></div></summary><div class="body">
         <h4>Desafio</h4><p>Acompanhar solicitações de vagas, candidatos e canais de divulgação em um só lugar.</p>
         <h4>Solução</h4><p>Aplicação web com solicitações de vagas, gestão de candidatos, canais de divulgação e um dashboard do andamento dos processos.</p>
@@ -192,7 +189,7 @@ footer{padding:28px 0 44px;color:var(--mut);font-family:var(--mono);font-size:.7
       <details open><summary><div><h3>Assistente de RH · Drill Tech</h3><small>ago/2026 – atual</small></div></summary><div class="body"><ul><li>Rotinas estratégicas e operacionais de RH, com foco em organização, análise e acompanhamento de fluxos de trabalho.</li><li>Apoio à estruturação e melhoria contínua de processos internos.</li></ul></div></details>
       <details><summary><div><h3>Aprendiz SENAI · General Motors</h3><small>Suporte a Sistemas e Automação · abr/2024 – set/2025</small></div></summary><div class="body"><ul><li>Desenvolvimento, melhoria e manutenção de sistemas internos de automação.</li><li>Entrega de soluções digitais com equipes multidisciplinares.</li><li>Aplicativos empresariais em Power Apps.</li></ul></div></details>
       <details><summary><div><h3>Aprendiz Administrativa · JM Ramos</h3><small>abr/2021 – abr/2023</small></div></summary><div class="body"><ul><li>Triagem de currículos e organização de processos seletivos.</li><li>Gestão de planilhas de controle corporativo, com precisão dos dados.</li></ul></div></details>
-      <details><summary><div><h3>Formação</h3><small>ADS · UNASP · SENAI-RS</small></div></summary><div class="body"><ul><li>Tecnólogo em Análise e Desenvolvimento de Sistemas, UNASP (fev/2024 – dez/2026).</li><li>Curso Técnico em Desenvolvimento de Sistemas, SENAI-RS (abr/2024 – set/2025).</li></ul></div></details>
+      <details><summary><div><h3>Formação e idiomas</h3><small>ADS · UNASP · SENAI-RS · Inglês e espanhol</small></div></summary><div class="body"><ul><li>Tecnólogo em Análise e Desenvolvimento de Sistemas, UNASP (fev/2024 – dez/2026).</li><li>Curso Técnico em Desenvolvimento de Sistemas, SENAI-RS (abr/2024 – set/2025).</li><li>Idiomas: inglês e espanhol, nível intermediário.</li></ul></div></details>
     </div>
   </div>
 </section>
@@ -256,7 +253,7 @@ reqs.innerHTML=v.r.map(function(x,k){return '<li class="'+(x[2]?"":"no")+'" styl
 fg.style.strokeDashoffset=326.7*(1-ok/t);
 clearInterval(timer);var n=0;timer=setInterval(function(){n++;rnum.firstChild.nodeValue=n+"/"+t;if(n>=ok)clearInterval(timer)},70);rnum.firstChild.nodeValue="0/"+t}
 V.forEach(function(v,i){var b=document.createElement("button");b.type="button";b.className="vt";b.textContent=v.n;b.onclick=function(){show(i)};tabs.appendChild(b)});
-rnum.innerHTML='0<small>requisitos cobertos</small>';show(0);
+rnum.textContent='0';show(0);
 /* etapas */
 var steps=[].slice.call(document.querySelectorAll(".step")),ids=["triagem","entrevista","proposta"],labels=["Em triagem","Em entrevista","Proposta aberta"],stamp=document.getElementById("stamp"),last=0;
 function stage(k){steps.forEach(function(s,j){s.classList.toggle("on",j==k);s.classList.toggle("done",j<k)});if(k!=last){stamp.textContent=labels[k];stamp.classList.remove("pop");void stamp.offsetWidth;stamp.classList.add("pop");last=k}}
