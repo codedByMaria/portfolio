@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estrelas · Demonstração</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+  :root{--ink:#1f2a14;--brand:#679922;--sky:#3f6212;--star:#f5b301;--bg:#f4f8ec;--card:#fff;--line:#c5d5ab;--ok:#2f6b0f;--soft:#eaf3da;--mut:#4f5c3d}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:20px/1.5 'Atkinson Hyperlegible',Arial,sans-serif}
+  header{background:var(--sky);color:#fff;padding:28px 20px 56px;text-align:center}
+  header .star{font-size:56px;line-height:1;color:var(--star)}
+  h1{margin:6px 0 8px;font-size:34px}
+  header p{margin:0 auto;max-width:34em;font-size:21px}
+  .demo{background:#fff3cd;color:#5c4400;text-align:center;padding:10px 16px;font-size:17px;font-weight:700}
+  .demo a{color:#5c4400;margin-left:8px}
+  .lang{position:absolute;right:14px;top:14px;display:flex;gap:6px}
+  .lang button{font:inherit;font-size:16px;padding:6px 12px;border-radius:8px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer}
+  .lang button.on{background:#fff;color:var(--sky);font-weight:700}
+  main{max-width:720px;margin:-34px auto 40px;padding:0 16px}
+  section{background:var(--card);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 2px 10px rgba(63,98,18,.15)}
+  h2{margin:0 0 4px;font-size:24px}
+  .hint{margin:0 0 14px;color:var(--mut);font-size:18px}
+  .who{background:var(--soft);border-radius:10px;padding:10px 14px;font-size:18px}
+  label{display:block;font-weight:700;margin:14px 0 6px}
+  input,textarea{width:100%;font:inherit;padding:14px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  textarea{min-height:150px;resize:vertical}
+  :focus-visible{outline:4px solid var(--star);outline-offset:2px}
+  .motivos{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+  .motivo{font:inherit;text-align:left;background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;color:var(--ink)}
+  .motivo .ic{font-size:34px;display:block}
+  .motivo b{display:block;font-size:21px;margin-top:2px}
+  .motivo span.d{font-size:17px;color:var(--mut)}
+  .motivo[aria-pressed=true]{border-color:var(--sky);background:var(--soft);box-shadow:inset 0 0 0 2px var(--sky)}
+  .motivo[aria-pressed=true] b::after{content:" ✓";color:var(--ok)}
+  .send{width:100%;font:inherit;font-size:24px;font-weight:700;padding:18px;border:0;border-radius:14px;background:var(--brand);color:#fff;cursor:pointer}
+  .send:disabled{opacity:.6;cursor:wait}
+  .err{color:#b3261e;font-weight:700;margin:10px 0 0;min-height:1.4em}
+  #ok{display:none;text-align:center}
+  #ok .star{font-size:72px;color:var(--star)}
+  .opc{display:flex;align-items:center;gap:14px;padding:14px;border:2px solid var(--line);border-radius:12px;margin-bottom:10px;cursor:pointer;font-size:20px}
+  .opc input{width:30px;height:30px;flex:none;accent-color:var(--brand);margin:0}
+  .opc:has(input:checked){background:var(--soft);border-color:var(--sky);box-shadow:inset 0 0 0 1px var(--sky)}
+  .microw{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+  .mic{font:inherit;font-size:21px;font-weight:700;padding:14px 22px;border-radius:50px;border:3px solid var(--brand);background:#fff;color:var(--sky);cursor:pointer}
+  .mic[aria-pressed=true]{background:#b3261e;border-color:#b3261e;color:#fff}
+  .microw small{font-size:17px;color:var(--mut)}
+  #ok button{margin-top:10px;font:inherit;font-size:20px;padding:12px 22px;border-radius:10px;border:2px solid var(--sky);background:#fff;color:var(--sky);cursor:pointer}
+  @media (prefers-reduced-motion:no-preference){#ok.show .star{animation:pop .6s ease-out}@keyframes pop{from{transform:scale(.3) rotate(-40deg);opacity:0}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<div class="demo"><span data-t="demo"></span> <a href="./" data-t="voltar"></a></div>
+<header>
+  <div class="lang"><button id="bpt" class="on" onclick="setLang('pt')">Português</button><button id="bes" onclick="setLang('es')">Español</button></div>
+  <div class="star" aria-hidden="true">★</div>
+  <h1>Estrelas</h1>
+  <p data-t="intro"></p>
+</header>
+<main>
+  <div id="formArea">
+    <section>
+      <div class="who" id="who"></div>
+      <label for="autor" data-t="lAutor"></label>
+      <input id="autor" autocomplete="name">
+      <label for="nome" data-t="lNome"></label>
+      <input id="nome" autocomplete="off">
+      <label for="setor" data-t="lSetor"></label>
+      <input id="setor" autocomplete="off">
+    </section>
+    <section>
+      <h2 data-t="hMotivo"></h2>
+      <p class="hint" data-t="pMotivo"></p>
+      <div class="motivos" id="motivos"></div>
+    </section>
+    <section>
+      <h2 data-t="hHist"></h2>
+      <p class="hint" data-t="pHist"></p>
+      <div id="opcoes"></div>
+      <label for="historia" data-t="lOutra"></label>
+      <textarea id="historia"></textarea>
+      <div class="microw" id="microw" style="display:none"><button type="button" class="mic" id="mic" aria-pressed="false" onclick="mic()"></button><small id="micmsg"></small></div>
+      <p class="err" id="err" role="alert"></p>
+      <button class="send" id="send" onclick="enviar()" data-t="bSend"></button>
+    </section>
+  </div>
+  <section id="ok">
+    <div class="star" aria-hidden="true">★</div>
+    <h2 data-t="okT"></h2>
+    <p data-t="okP"></p>
+    <button onclick="novo()" data-t="bNovo"></button>
+  </section>
+</main>
+<script>
+const MOTIVOS=[
+ {id:'etica',ic:'⚖️',pt:['Ética','Respeita os colegas e busca fazer o que é certo.','Ex.: Ele sempre trata todos com respeito e admite quando erra.'],es:['Ética','Respeta a sus compañeros y busca hacer lo correcto.','Ej.: Siempre trata a todos con respeto y reconoce cuando se equivoca.']},
+ {id:'equipe',ic:'🤝',pt:['Trabalho em equipe','Ajuda os outros e divide o que sabe.','Ex.: Ela parou o que estava fazendo para me ensinar uma tarefa nova.'],es:['Trabajo en equipo','Ayuda a los demás y comparte lo que sabe.','Ej.: Dejó lo que hacía para enseñarme una tarea nueva.']},
+ {id:'dedicacao',ic:'💪',pt:['Dedicação','Faz o trabalho com capricho e vai além do esperado.','Ex.: Ficou até terminar o pedido para o cliente receber no prazo.'],es:['Dedicación','Hace su trabajo con esmero y va más allá de lo esperado.','Ej.: Se quedó hasta terminar el pedido para que el cliente lo recibiera a tiempo.']},
+ {id:'seguranca',ic:'🦺',pt:['Segurança','Cuida de si e dos outros no dia a dia.','Ex.: Viu um risco no corredor e avisou todo mundo na hora.'],es:['Seguridad','Se cuida y cuida a los demás en el día a día.','Ej.: Vio un riesgo en el pasillo y avisó a todos de inmediato.']},
+ {id:'iniciativa',ic:'💡',pt:['Iniciativa','Resolve problemas sem esperar que mandem.','Ex.: Teve uma ideia que economizou tempo para toda a equipe.'],es:['Iniciativa','Resuelve problemas sin esperar que se lo pidan.','Ej.: Tuvo una idea que le ahorró tiempo a todo el equipo.']},
+ {id:'gentileza',ic:'😊',pt:['Gentileza','Deixa o ambiente de trabalho melhor.','Ex.: Recebeu bem o colega novo e fez ele se sentir em casa.'],es:['Amabilidad','Hace que el ambiente de trabajo sea mejor.','Ej.: Recibió muy bien al compañero nuevo y lo hizo sentir en casa.']}
+];
+const OPC={
+ etica:{pt:['Trata todos com respeito, sem exceção.','É honesto, mesmo quando ninguém está vendo.','Admite quando erra e procura corrigir.','Faz o que é certo, mesmo quando é mais difícil.','Defende os colegas e trata cada um com justiça.'],es:['Trata a todos con respeto, sin excepción.','Es honesto, incluso cuando nadie lo ve.','Reconoce cuando se equivoca y busca corregir.','Hace lo correcto, aunque sea más difícil.','Defiende a sus compañeros y trata a cada uno con justicia.']},
+ equipe:{pt:['Me ajudou quando eu precisei.','Ensinou uma tarefa a alguém com paciência.','Divide o que sabe com todos.','Ajuda outros setores, mesmo sem ser sua função.','Escuta os colegas e une o grupo para resolver as coisas.'],es:['Me ayudó cuando lo necesité.','Enseñó una tarea a alguien con paciencia.','Comparte lo que sabe con todos.','Ayuda a otros sectores, aunque no sea su función.','Escucha a sus compañeros y une al grupo para resolver las cosas.']},
+ dedicacao:{pt:['Faz o trabalho com capricho, sem pressa de acabar.','Ficou além do horário para terminar o que era preciso.','Nunca deixa uma tarefa pela metade.','Chega no horário e cumpre o que promete.','Faz mais do que o esperado, sem pedir nada em troca.'],es:['Hace su trabajo con esmero, sin apuro por terminar.','Se quedó más allá del horario para terminar lo necesario.','Nunca deja una tarea a medias.','Llega a tiempo y cumple lo que promete.','Hace más de lo esperado, sin pedir nada a cambio.']},
+ seguranca:{pt:['Viu um risco e avisou todo mundo.','Sempre usa os equipamentos de proteção.','Lembra os colegas de trabalhar com segurança.','Ajudou alguém que estava em perigo ou se machucou.','Mantém o local de trabalho limpo e organizado.'],es:['Vio un riesgo y avisó a todos.','Siempre usa el equipo de protección.','Recuerda a sus compañeros trabajar con seguridad.','Ayudó a alguien que estaba en peligro o se lastimó.','Mantiene su lugar de trabajo limpio y ordenado.']},
+ iniciativa:{pt:['Resolveu um problema sem esperar ninguém pedir.','Teve uma ideia que melhorou o nosso trabalho.','Economizou tempo ou material para a empresa.','Assumiu uma tarefa nova e aprendeu rápido.','Percebeu um erro a tempo e evitou um problema maior.'],es:['Resolvió un problema sin esperar que se lo pidieran.','Tuvo una idea que mejoró nuestro trabajo.','Ahorró tiempo o material para la empresa.','Asumió una tarea nueva y aprendió rápido.','Notó un error a tiempo y evitó un problema mayor.']},
+ gentileza:{pt:['Cumprimenta todos com um sorriso.','Recebeu bem quem chegou novo.','Está sempre de bom humor, mesmo nos dias difíceis.','Me apoiou num momento difícil.','Deixa o ambiente mais leve e alegre.'],es:['Saluda a todos con una sonrisa.','Recibió muy bien a quien llegó nuevo.','Siempre tiene buen humor, incluso en los días difíciles.','Me apoyó en un momento difícil.','Hace el ambiente más ligero y alegre.']}
+};
+const T={
+ pt:{intro:'Alguém te ajudou ou fez a diferença? Conte para nós. Leva só 2 minutos.',demo:'Versão de demonstração: nada do que você escrever é enviado ou salvo.',voltar:'← Voltar ao portfólio',lAutor:'Seu nome (quem está indicando)',lNome:'Quem você quer reconhecer? (nome do colega)',lSetor:'Onde essa pessoa trabalha? (opcional)',hMotivo:'Por que essa pessoa merece uma estrela?',pMotivo:'Toque no que mais combina. Escolha só um.',hHist:'Conte o que aconteceu',pHist:'Marque tudo o que combina com essa pessoa. Pode marcar mais de uma.',lOutra:'Quer contar com suas palavras? (opcional)',semMot:'Escolha um motivo acima para ver as opções.',bSend:'Enviar minha indicação',okT:'Obrigado! Indicação enviada.',okP:'Sua estrela já está a caminho. Obrigado por reconhecer um colega.',bNovo:'Indicar outra pessoa',who:e=>e?`Você está indicando como: <b>${e}</b>`:'Não conseguimos identificar seu e-mail. Entre com sua conta ESTAQ e abra o link de novo.',eAutor:'Escreva o seu nome.',eNome:'Escreva o nome do colega.',eMot:'Toque em um dos motivos.',eHist:'Marque uma opção ou escreva um pouco do que aconteceu.',eNet:'Não foi possível enviar. Tente de novo.',ph:'Conte aqui o que aconteceu.',mFalar:'🎤 Falar',mParar:'⏹ Parar',mDica:'Toque e fale. O texto aparece sozinho.',mOuve:'Estou ouvindo… toque para parar.',eMic:'Permita o microfone no navegador e tente de novo.',eMic2:'Não deu para ouvir. Tente de novo ou escreva.'},
+ es:{intro:'¿Alguien te ayudó o hizo la diferencia? Cuéntanos. Solo toma 2 minutos.',demo:'Versión de demostración: nada de lo que escribas se envía ni se guarda.',voltar:'← Volver al portafolio',lAutor:'Tu nombre (quien nomina)',lNome:'¿A quién quieres reconocer? (nombre del compañero)',lSetor:'¿Dónde trabaja esta persona? (opcional)',hMotivo:'¿Por qué esta persona merece una estrella?',pMotivo:'Toca lo que mejor encaje. Escoge solo uno.',hHist:'Cuéntanos qué pasó',pHist:'Marca todo lo que encaje con esa persona. Puedes marcar más de una.',lOutra:'¿Quieres contarlo con tus palabras? (opcional)',semMot:'Escoge un motivo arriba para ver las opciones.',bSend:'Enviar mi nominación',okT:'¡Gracias! Nominación enviada.',okP:'Su estrella ya va en camino. Gracias por reconocer a un compañero.',bNovo:'Nominar a otra persona',who:e=>e?`Estás nominando como: <b>${e}</b>`:'No pudimos identificar tu correo. Entra con tu cuenta de ESTAQ y abre el enlace otra vez.',eAutor:'Escribe tu nombre.',eNome:'Escribe el nombre del compañero.',eMot:'Toca uno de los motivos.',eHist:'Marca una opción o escribe un poco de lo que pasó.',eNet:'No se pudo enviar. Inténtalo de nuevo.',ph:'Cuenta aquí lo que pasó.',mFalar:'🎤 Hablar',mParar:'⏹ Parar',mDica:'Toca y habla. El texto aparece solo.',mOuve:'Te estoy escuchando… toca para parar.',eMic:'Permite el micrófono en el navegador e inténtalo de nuevo.',eMic2:'No se pudo escuchar. Inténtalo de nuevo o escribe.'}
+};
+let lang='pt',motivo=null,email='',sel=[];
+const $=id=>document.getElementById(id);
+function render(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>el.textContent=T[lang][el.dataset.t]);
+  $('who').innerHTML=T[lang].who(email);
+  $('bpt').classList.toggle('on',lang==='pt');$('bes').classList.toggle('on',lang==='es');
+  $('motivos').innerHTML=MOTIVOS.map(m=>`<button type="button" class="motivo" aria-pressed="${motivo===m.id}" onclick="pick('${m.id}')"><span class="ic" aria-hidden="true">${m.ic}</span><b>${m[lang][0]}</b><span class="d">${m[lang][1]}</span></button>`).join('');
+  const m=MOTIVOS.find(x=>x.id===motivo);
+  $('historia').placeholder=m?m[lang][2]:T[lang].ph;
+  renderOpc();
+  renderMic();
+}
+function renderOpc(){
+  $('opcoes').innerHTML=motivo?OPC[motivo][lang].map((t,i)=>`<label class="opc"><input type="checkbox" ${sel.includes(i)?'checked':''} onchange="tog(${i},this.checked)"><span>${t}</span></label>`).join(''):`<p class="hint">${T[lang].semMot}</p>`;
+}
+function tog(i,on){sel=sel.filter(x=>x!==i);if(on)sel.push(i)}
+let rec=null,ouvindo=false,base='';
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function renderMic(){
+  if(!SR)return;
+  $('microw').style.display='flex';
+  $('mic').textContent=ouvindo?T[lang].mParar:T[lang].mFalar;
+  $('mic').setAttribute('aria-pressed',ouvindo);
+  $('micmsg').textContent=ouvindo?T[lang].mOuve:T[lang].mDica;
+}
+function mic(){
+  if(ouvindo){rec.stop();return}
+  rec=new SR();rec.lang=lang==='es'?'es-CU':'pt-BR';rec.continuous=true;rec.interimResults=true;
+  base=$('historia').value;if(base&&!/\s$/.test(base))base+=' ';
+  rec.onstart=()=>{ouvindo=true;$('err').textContent='';renderMic()};
+  rec.onend=()=>{ouvindo=false;renderMic()};
+  rec.onerror=e=>{$('err').textContent=(e.error==='not-allowed'||e.error==='service-not-allowed')?T[lang].eMic:T[lang].eMic2};
+  rec.onresult=e=>{let t='';for(let i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;$('historia').value=base+t};
+  try{rec.start()}catch(x){}
+}
+function setLang(l){if(ouvindo)rec.stop();lang=l;render()}
+function pick(id){if(id!==motivo)sel=[];motivo=id;render()}
+function enviar(){
+  const t=T[lang],autor=$('autor').value.trim(),nome=$('nome').value.trim(),hist=$('historia').value.trim(),err=$('err');
+  err.textContent='';
+  if(!autor){err.textContent=t.eAutor;$('autor').focus();return}
+  if(!nome){err.textContent=t.eNome;$('nome').focus();return}
+  if(!motivo){err.textContent=t.eMot;return}
+  if(!sel.length&&!hist){err.textContent=t.eHist;return}
+  const m=MOTIVOS.find(x=>x.id===motivo);
+  if(ouvindo)rec.stop();
+  $('send').disabled=true;
+  setTimeout(()=>{$('formArea').style.display='none';$('ok').style.display='block';$('ok').classList.add('show');window.scrollTo(0,0)},500);
+}
+function novo(){
+  $('autor').value='';$('nome').value='';$('setor').value='';$('historia').value='';motivo=null;sel=[];
+  $('ok').style.display='none';$('ok').classList.remove('show');$('formArea').style.display='block';$('send').disabled=false;render();window.scrollTo(0,0);
+}
+render();
+email='colaborador@exemplo.com';render();
+</script>
+</body>
+</html>
